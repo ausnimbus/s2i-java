@@ -1,0 +1,5 @@
+#!/bin/bash -e
+source /opt/app-root/etc/maven_environment
+
+echo "---> Installing application source ..."
+mv /tmp/src/* ./

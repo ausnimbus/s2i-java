@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+NAME="maven"
+DISPLAY_NAME="Maven"
+FROM="maven:%VERSION%-jdk-8-alpine"
+TYPE="s2i"
+VARIANTS="alpine"
+VERSIONS="3"
+
+DOCKER_PUSH=${DOCKER_PUSH:-"false"}
+
+source $(readlink -zf $(dirname "${BASH_SOURCE[0]}"))/../common/hack/run
