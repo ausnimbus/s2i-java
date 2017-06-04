@@ -40,7 +40,7 @@ node {
                                                                         "name" : "${tag}",
                                                                         "from" : [
                                                                                 "kind" : "DockerImage",
-                                                                                "name" : "maven:%VERSION%-jdk-8-%VARIANT%",
+                                                                                "name" : "maven:${versions[i]}-jdk-8-alpine",
                                                                         ],
                                                                         "referencePolicy" : [
                                                                                 "type" : "Source"
