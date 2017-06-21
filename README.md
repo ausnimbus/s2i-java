@@ -1,4 +1,4 @@
-# AusNimbus Builder for Java (WIP) [![Build Status](https://travis-ci.org/ausnimbus/s2i-java.svg?branch=master)](https://travis-ci.org/ausnimbus/s2i-java) [![Docker Repository on Quay](https://quay.io/repository/ausnimbus/s2i-java/status "Docker Repository on Quay")](https://quay.io/repository/ausnimbus/s2i-java)
+# AusNimbus Builder for Java [![Build Status](https://travis-ci.org/ausnimbus/s2i-java.svg?branch=master)](https://travis-ci.org/ausnimbus/s2i-java) [![Docker Repository on Quay](https://quay.io/repository/ausnimbus/s2i-java/status "Docker Repository on Quay")](https://quay.io/repository/ausnimbus/s2i-java)
 
 [![Java](https://user-images.githubusercontent.com/2239920/27286632-37ff0dac-5544-11e7-91f7-f72fc7779ca1.jpg)](https://www.ausnimbus.com.au/)
 
