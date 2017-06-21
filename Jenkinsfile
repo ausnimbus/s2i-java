@@ -7,7 +7,7 @@ node {
         def variants = "default".split(',');
         for (int v = 0; v < variants.length; v++) {
 
-                def versions = "3-jdk-8".split(',');
+                def versions = "jdk-8".split(',');
                 for (int i = 0; i < versions.length; i++) {
 
                   if (variants[v] == "default") {
@@ -40,7 +40,7 @@ node {
                                                                         "name" : "${tag}",
                                                                         "from" : [
                                                                                 "kind" : "DockerImage",
-                                                                                "name" : "maven:${versions[i]}",
+                                                                                "name" : "maven:3-${versions[i]}",
                                                                         ],
                                                                         "referencePolicy" : [
                                                                                 "type" : "Source"
