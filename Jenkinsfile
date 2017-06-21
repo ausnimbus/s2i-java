@@ -7,7 +7,7 @@ node {
         def variants = "default".split(',');
         for (int v = 0; v < variants.length; v++) {
 
-                def versions = "3".split(',');
+                def versions = "3-jdk-8".split(',');
                 for (int i = 0; i < versions.length; i++) {
 
                   if (variants[v] == "default") {
@@ -20,7 +20,7 @@ node {
 
 
                         try {
-                                stage("Build (Maven-${tag})") {
+                                stage("Build (Java-${tag})") {
                                         openshift.withCluster() {
         openshift.apply([
                                 "apiVersion" : "v1",
@@ -29,9 +29,9 @@ node {
                                                 "apiVersion" : "v1",
                                                 "kind" : "ImageStream",
                                                 "metadata" : [
-                                                        "name" : "maven",
+                                                        "name" : "java",
                                                         "labels" : [
-                                                                "builder" : "s2i-maven"
+                                                                "builder" : "s2i-java"
                                                         ]
                                                 ],
                                                 "spec" : [
@@ -40,7 +40,7 @@ node {
                                                                         "name" : "${tag}",
                                                                         "from" : [
                                                                                 "kind" : "DockerImage",
-                                                                                "name" : "maven:${versions[i]}-jdk-8",
+                                                                                "name" : "maven:${versions[i]}",
                                                                         ],
                                                                         "referencePolicy" : [
                                                                                 "type" : "Source"
@@ -53,9 +53,9 @@ node {
                                                 "apiVersion" : "v1",
                                                 "kind" : "ImageStream",
                                                 "metadata" : [
-                                                        "name" : "s2i-maven",
+                                                        "name" : "s2i-java",
                                                         "labels" : [
-                                                                "builder" : "s2i-maven"
+                                                                "builder" : "s2i-java"
                                                         ]
                                                 ]
                                         ]
@@ -66,16 +66,16 @@ node {
                                 "apiVersion" : "v1",
                                 "kind" : "BuildConfig",
                                 "metadata" : [
-                                        "name" : "s2i-maven-${tag}",
+                                        "name" : "s2i-java-${tag}",
                                         "labels" : [
-                                                "builder" : "s2i-maven"
+                                                "builder" : "s2i-java"
                                         ]
                                 ],
                                 "spec" : [
                                         "output" : [
                                                 "to" : [
                                                         "kind" : "ImageStreamTag",
-                                                        "name" : "s2i-maven:${tag}"
+                                                        "name" : "s2i-java:${tag}"
                                                 ]
                                         ],
                                         "runPolicy" : "Serial",
@@ -86,7 +86,7 @@ node {
                                         ],
                                         "source" : [
                                                 "git" : [
-                                                        "uri" : "https://github.com/ausnimbus/s2i-maven"
+                                                        "uri" : "https://github.com/ausnimbus/s2i-java"
                                                 ],
                                                 "type" : "Git"
                                         ],
@@ -95,24 +95,24 @@ node {
                                                         "dockerfilePath" : "versions/${versions[i]}/${variant}/Dockerfile",
                                                         "from" : [
                                                                 "kind" : "ImageStreamTag",
-                                                                "name" : "maven:${tag}"
+                                                                "name" : "java:${tag}"
                                                         ]
                                                 ],
                                                 "type" : "Docker"
                                         ]
                                 ]
                         ])
-        echo "Created s2i-maven:${tag} objects"
+        echo "Created s2i-java:${tag} objects"
         /**
         * TODO: Replace the sleep with import-image
-        * openshift.importImage("maven:${tag}")
+        * openshift.importImage("java:${tag}")
         */
         sleep 60
 
         echo "==============================="
-        echo "Starting build s2i-maven-${tag}"
+        echo "Starting build s2i-java-${tag}"
         echo "==============================="
-        def builds = openshift.startBuild("s2i-maven-${tag}");
+        def builds = openshift.startBuild("s2i-java-${tag}");
 
         timeout(60) {
                 builds.untilEach(1) {
@@ -124,13 +124,13 @@ node {
 }
 
                                 }
-                                stage("Test (Maven-${tag})") {
+                                stage("Test (Java-${tag})") {
                                         openshift.withCluster() {
         echo "==============================="
         echo "Starting test application"
         echo "==============================="
 
-        def testApp = openshift.newApp("https://github.com/ausnimbus/maven-ex", "--image-stream=s2i-maven:${tag}", "-l app=maven-ex");
+        def testApp = openshift.newApp("https://github.com/ausnimbus/java-ex", "--image-stream=s2i-java:${tag}", "-l app=java-ex");
         echo "new-app created ${testApp.count()} objects named: ${testApp.names()}"
         testApp.describe()
 
@@ -163,25 +163,25 @@ node {
 }
 
                                 }
-                                stage("Stage (Maven-${tag})") {
+                                stage("Stage (Java-${tag})") {
                                         openshift.withCluster() {
         echo "==============================="
         echo "Tag new image into staging"
         echo "==============================="
 
-        openshift.tag("ausnimbus-ci/s2i-maven:${tag}", "ausnimbus/s2i-maven:${tag}")
+        openshift.tag("ausnimbus-ci/s2i-java:${tag}", "ausnimbus/s2i-java:${tag}")
 }
 
                                 }
                         } finally {
                                 openshift.withCluster() {
-                                        echo "Deleting test resources maven-ex"
-                                        openshift.selector("dc", [app: "maven-ex"]).delete()
-                                        openshift.selector("bc", [app: "maven-ex"]).delete()
-                                        openshift.selector("svc", [app: "maven-ex"]).delete()
-                                        openshift.selector("is", [app: "maven-ex"]).delete()
-                                        openshift.selector("pods", [app: "maven-ex"]).delete()
-                                        openshift.selector("routes", [app: "maven-ex"]).delete()
+                                        echo "Deleting test resources java-ex"
+                                        openshift.selector("dc", [app: "java-ex"]).delete()
+                                        openshift.selector("bc", [app: "java-ex"]).delete()
+                                        openshift.selector("svc", [app: "java-ex"]).delete()
+                                        openshift.selector("is", [app: "java-ex"]).delete()
+                                        openshift.selector("pods", [app: "java-ex"]).delete()
+                                        openshift.selector("routes", [app: "java-ex"]).delete()
                                 }
                         }
 

@@ -1,5 +1,15 @@
 #!/bin/bash -e
-source /opt/app-root/etc/dotnet_environment
+source /opt/app-root/etc/java_environment
 
-echo "---> Running application ..."
-exec "$DOTNET_RUN_SCRIPT"
+for jarFile in $(find target -maxdepth 1 -name "*.jar" -type f); do
+  if is_spring_boot; then
+    JAVA_OPTS="$JAVA_OPTS -Dserver.port=8080"
+  elif is_wildfly_swarm; then
+    JAVA_OPTS="$JAVA_OPTS -Dswarm.http.port=8080"
+  fi
+  export jarFile=$jarFile
+  break;
+done
+
+echo "---> Running application ($jarFile)..."
+exec java -jar $jarFile
