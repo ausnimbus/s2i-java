@@ -23,6 +23,11 @@ Web processes must bind to port `8080` and only the HTTP protocol is permitted f
 * **MAVEN_JAVA_OPTS**
   * Default: `-Xmx$((MEMORY_LIMIT-32))m`
 
+* **MAVEN_SETTINGS_PATH, MAVEN_SETTINGS_URL**
+  * By default the builder will look for `settings.xml` in the root repository.
+  * You can define a specific file instead by using `MAVEN_SETTINGS_PATH`
+  * You can alternatively define a URL by using `MAVEN_SETTINGS_URL`
+
 # Versions
 
 - jdk8

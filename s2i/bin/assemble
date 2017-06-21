@@ -9,17 +9,6 @@ fi
 echo "---> Installing application source ..."
 mv /tmp/src/* ./
 
-if [ -d ./configuration ]; then
-  echo "---> Copying config files from source..."
-
-  if [ -f ./configuration/settings.xml ]; then
-    mkdir -p ./.m2
-    mv ./configuration/settings.xml ./.m2
-  fi
-
-  cp -v ./configuration/* $DEPLOY_DIR
-fi
-
 echo "---> Getting setting for application..."
 if [ -n "$MAVEN_SETTINGS_PATH" ]; then
   echo "\t--->Using settings from $MAVEN_SETTINGS_PATH"
@@ -32,6 +21,8 @@ elif [ -n "$MAVEN_SETTINGS_URL" ]; then
 elif [ -f settings.xml ]; then
   echo "\t--->Using settings from settings.xml"
   mvn_settings="-s settings.xml"
+else
+  mvn_settings=""
 fi
 
 echo "---> Building application from source..."
