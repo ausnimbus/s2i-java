@@ -33,5 +33,5 @@ else
   MAVEN_CMD="mvn"
 fi
 
-echo "\t---> Running mvn $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS"
+echo "\t---> Running $MAVEN_CMD $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS"
 $MAVEN_CMD -B $mvn_settings $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS
