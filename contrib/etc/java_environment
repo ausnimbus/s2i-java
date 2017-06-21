@@ -31,3 +31,6 @@ has_maven_wrapper() {
 export MAVEN_JAVA_OPTS=${MAVEN_JAVA_OPTS:-"-Xmx$((MEMORY_LIMIT-32))m"}
 export MAVEN_CUSTOM_OPTS=${MAVEN_CUSTOM_OPTS:-"--update-snapshots -DskipTests=true"}
 export MAVEN_CUSTOM_GOALS=${MAVEN_CUSTOM_GOALS:-"clean package"}
+
+# Runtime Java opts
+export JAVA_OPTS=${JAVA_OPTS:-"$MAVEN_OPTS"}
