@@ -5,7 +5,7 @@ DISPLAY_NAME="Java"
 FROM="maven:%VERSION%"
 TYPE="s2i"
 VARIANTS="default"
-VERSIONS="3-jdk-8"
+VERSIONS="3-jdk-8,3-jdk-9"
 
 DOCKER_PUSH=${DOCKER_PUSH:-"false"}
 
