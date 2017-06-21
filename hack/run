@@ -2,10 +2,10 @@
 
 NAME="maven"
 DISPLAY_NAME="Maven"
-FROM="maven:%VERSION%-jdk-8"
+FROM="maven:%VERSION%"
 TYPE="s2i"
 VARIANTS="default"
-VERSIONS="3"
+VERSIONS="3-jdk-8"
 
 DOCKER_PUSH=${DOCKER_PUSH:-"false"}
 

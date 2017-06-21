@@ -1,0 +1,33 @@
+#!/bin/bash
+source cgroup-limits
+
+set -e
+set -o pipefail
+# Include hidden files
+shopt -s dotglob
+
+# Set the umask to be '002' so that any files/directories created from
+# this point are group writable.
+umask 002
+
+is_spring_boot() {
+  test -f ./pom.xml &&
+    test -n "$(grep "<groupId>org.springframework.boot" ./pom.xml)" &&
+    test -n "$(grep "<artifactId>spring-boot" ./pom.xml)"
+}
+
+is_wildfly_swarm() {
+  test -f ./pom.xml &&
+    test -n "$(grep "<groupId>org.wildfly.swarm" ./pom.xml)"
+}
+
+has_maven_wrapper() {
+  test -f ./mvnw &&
+    test -f ./.mvn/wrapper/maven-wrapper.jar &&
+    test -f ./.mvn/wrapper/maven-wrapper.properties
+}
+
+# Define the maximum memory limit (total_limit - 32MB)
+export MAVEN_JAVA_OPTS=${MAVEN_JAVA_OPTS:-"-Xmx$((MEMORY_LIMIT-32))m"}
+export MAVEN_CUSTOM_OPTS=${MAVEN_CUSTOM_OPTS:-"--update-snapshots -DskipTests=true"}
+export MAVEN_CUSTOM_GOALS=${MAVEN_CUSTOM_GOALS:-"clean package"}

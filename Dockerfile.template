@@ -1,0 +1,2 @@
+# For test purposes only
+ENV JDK=%VERSION%
