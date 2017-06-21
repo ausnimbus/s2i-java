@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-NAME="maven"
-DISPLAY_NAME="Maven"
+NAME="java"
+DISPLAY_NAME="Java"
 FROM="maven:%VERSION%"
 TYPE="s2i"
 VARIANTS="default"

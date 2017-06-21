@@ -8,10 +8,10 @@ FROM maven:3-jdk-8
 
 MAINTAINER AusNimbus <support@ausnimbus.com.au>
 
-LABEL summary="Platform for running Maven 3-jdk-8 applications" \
+LABEL summary="Platform for running Java 3-jdk-8 applications" \
       maintainer="AusNimbus <support@ausnimbus.com.au>" \
-      io.k8s.description="Platform for running Maven 3-jdk-8 applications" \
-      io.k8s.display-name="Maven 3-jdk-8"
+      io.k8s.description="Platform for running Java 3-jdk-8 applications" \
+      io.k8s.display-name="Java 3-jdk-8"
 
 ENV USER=999 \
     HOME=/opt/app-root/src
@@ -41,7 +41,7 @@ RUN apt-get update && apt-get install -y git --no-install-recommends && rm -rf /
 ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
 
 LABEL io.openshift.expose-services="8080:http" \
-    io.openshift.tags="builder,maven" \
+    io.openshift.tags="builder,java" \
     io.openshift.s2i.scripts-url=image:///usr/libexec/s2i
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
