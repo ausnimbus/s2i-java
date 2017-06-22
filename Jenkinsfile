@@ -7,7 +7,7 @@ node {
         def variants = "default".split(',');
         for (int v = 0; v < variants.length; v++) {
 
-                def versions = "3-jdk-8,3-jdk-9".split(',');
+                def versions = "jdk8,jdk9".split(',');
                 for (int i = 0; i < versions.length; i++) {
 
                   if (variants[v] == "default") {
@@ -40,7 +40,7 @@ node {
                                                                         "name" : "${tag}",
                                                                         "from" : [
                                                                                 "kind" : "DockerImage",
-                                                                                "name" : "maven:${versions[i]}",
+                                                                                "name" : "maven:3-jdk-8",
                                                                         ],
                                                                         "referencePolicy" : [
                                                                                 "type" : "Source"
@@ -130,7 +130,7 @@ node {
         echo "Starting test application"
         echo "==============================="
 
-        def testApp = openshift.newApp("https://github.com/ausnimbus/java-ex", "--image-stream=s2i-java:${tag}", "-l app=java-ex");
+        def testApp = openshift.newApp("s2i-java:${tag}~https://github.com/ausnimbus/java-ex", "-l app=java-ex");
         echo "new-app created ${testApp.count()} objects named: ${testApp.names()}"
         testApp.describe()
 
@@ -157,9 +157,11 @@ node {
         def testAppHost = testAppService.object().spec.clusterIP;
         def testAppPort = testAppService.object().spec.ports[0].port;
 
-        sleep 60
-        echo "Testing endpoint ${testAppHost}:${testAppPort}"
-        sh "curl -o /dev/null $testAppHost:$testAppPort"
+        retry(2) {
+          sleep 60
+          echo "Testing endpoint ${testAppHost}:${testAppPort}"
+          sh "curl -o /dev/null $testAppHost:$testAppPort"  
+        }
 }
 
                                 }
@@ -169,7 +171,7 @@ node {
         echo "Tag new image into staging"
         echo "==============================="
 
-        openshift.tag("ausnimbus-ci/s2i-java:${tag}", "ausnimbus/s2i-java:${tag}")
+        openshift.tag("ausnimbus-ci/s2i-java:${tag}", "ausnimbus-staging/s2i-java:${tag}")
 }
 
                                 }
