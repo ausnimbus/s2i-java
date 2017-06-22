@@ -11,15 +11,15 @@ mv /tmp/src/* ./
 
 echo "---> Getting setting for application..."
 if [ -n "$MAVEN_SETTINGS_PATH" ]; then
-  echo "\t--->Using settings from $MAVEN_SETTINGS_PATH"
+  echo -e "\t--->Using settings from $MAVEN_SETTINGS_PATH"
   mvn_settings="-s $MAVEN_SETTINGS_PATH"
 elif [ -n "$MAVEN_SETTINGS_URL" ]; then
-  echo "\t--->Installing settings.xml from $MAVEN_SETTINGS_URL"
+  echo -e "\t--->Installing settings.xml from $MAVEN_SETTINGS_URL"
   mkdir -p .m2
   curl --retry 3 --silent --max-time 10 --location $MAVEN_SETTINGS_URL --output .m2/settings.xml
   mvn_settings="-s .m2/settings.xml"
 elif [ -f settings.xml ]; then
-  echo "\t--->Using settings from settings.xml"
+  echo -e "\t--->Using settings from settings.xml"
   mvn_settings="-s settings.xml"
 else
   mvn_settings=""
@@ -27,11 +27,11 @@ fi
 
 echo "---> Building application from source..."
 if has_maven_wrapper; then
-  echo "\t---> Found maven wrapper"
+  echo -e "\t---> Found maven wrapper"
   MAVEN_CMD="./mvnw"
 else
   MAVEN_CMD="mvn"
 fi
 
-echo "\t---> Running $MAVEN_CMD $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS"
+echo -e "\t---> Running $MAVEN_CMD $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS"
 $MAVEN_CMD -B $mvn_settings $MAVEN_CUSTOM_OPTS $MAVEN_CUSTOM_GOALS
