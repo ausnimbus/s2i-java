@@ -8,10 +8,10 @@ FROM maven:3-jdk-8
 
 MAINTAINER AusNimbus <support@ausnimbus.com.au>
 
-LABEL summary="Platform for running Java jdk-8 applications" \
+LABEL summary="Platform for running Java jdk8 applications" \
       maintainer="AusNimbus <support@ausnimbus.com.au>" \
-      io.k8s.description="Platform for running Java jdk-8 applications" \
-      io.k8s.display-name="Java jdk-8"
+      io.k8s.description="Platform for running Java jdk8 applications" \
+      io.k8s.display-name="Java jdk8"
 
 ENV USER=999 \
     HOME=/opt/app-root/src
@@ -58,7 +58,7 @@ CMD /usr/bin/base-usage
 # <template>
 
 # For test purposes only
-ENV JDK=jdk-8
+ENV JDK=jdk8
 
 # </template>
 # <post>
