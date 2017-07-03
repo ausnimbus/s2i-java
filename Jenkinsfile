@@ -7,7 +7,7 @@ node {
         def variants = "default".split(',');
         for (int v = 0; v < variants.length; v++) {
 
-                def versions = "jdk8".split(',');
+                def versions = "jdk8,jdk9".split(',');
                 for (int i = 0; i < versions.length; i++) {
 
                   if (variants[v] == "default") {
