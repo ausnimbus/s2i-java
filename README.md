@@ -24,7 +24,7 @@ Web processes must bind to port `8080` and only the HTTP protocol is permitted f
 
 * **MAVEN_JAVA_OPTS**
 
-  * Default: `-Xmx$((MEMORY_LIMIT-32))m`
+  * Default: `-Xmx$((MEMORY_LIMIT * 90 / 100))m`
 
 * **MAVEN_SETTINGS_PATH, MAVEN_SETTINGS_URL**
 

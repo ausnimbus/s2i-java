@@ -28,8 +28,8 @@ has_maven_wrapper() {
     test -f ./.mvn/wrapper/maven-wrapper.properties
 }
 
-# Define the maximum memory limit (total_limit - 32MB)
-export MAVEN_JAVA_OPTS=${MAVEN_JAVA_OPTS:-"-Xmx$((MEMORY_LIMIT-32))m"}
+# Define the maximum memory limit (total_limit * 90%)
+export MAVEN_JAVA_OPTS=${MAVEN_JAVA_OPTS:-"-Xmx$((MEMORY_LIMIT * 90 / 100))m"}
 export MAVEN_CUSTOM_OPTS=${MAVEN_CUSTOM_OPTS:-"--update-snapshots -DskipTests=true"}
 export MAVEN_CUSTOM_GOALS=${MAVEN_CUSTOM_GOALS:-"clean package"}
 
